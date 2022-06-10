@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.col-xs-3 {font-size:0; background-color: blue;}
+
+@media (max-width: 767px) {
+    .col-xs-3 {font-size: 0; background-color: red;}
+}

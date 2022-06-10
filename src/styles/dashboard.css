@@ -1,0 +1,19 @@
+body {
+    overflow-x: hidden;
+    padding-top: 55px;
+}
+
+.sidebar.collapse.show,
+.sidebar.collapse.show + .col {
+    transition: .18s linear;
+    left: 0;
+}
+
+.sidebar.collapse ,
+.sidebar.collapsing,
+.sidebar.collapsing + .col {
+    transition: .18s linear;
+    z-index: 1050;
+    left: -25%;
+    height: auto !important;
+}

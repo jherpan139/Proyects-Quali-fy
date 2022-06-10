@@ -1,0 +1,15 @@
+import React from 'react'
+
+const User = () => {
+  return (
+      <>
+    <div>User</div>
+    <div>User</div>
+    <div>User</div>
+    <div>User</div>
+    <div>User</div>
+    </>
+  )
+}
+
+export default User
