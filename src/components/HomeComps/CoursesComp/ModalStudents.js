@@ -13,7 +13,7 @@ function StudentsModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Estudiantes de {props.courseName}
+            Estudiantes de {props.coursename}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

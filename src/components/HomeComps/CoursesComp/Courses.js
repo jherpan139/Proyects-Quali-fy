@@ -11,28 +11,6 @@ import Modify from '@mui/icons-material/ChangeCircleRounded'
 import getTeachersOfCourses from '../../../request/getTeachersOfCourses'
 import CreateCourseModal from './CourseActions/CreateCourse'
 
-const listAllCourses = async (userToken) => {
-  let coursesArray = []
-  await getAllCourses(userToken)
-  .then((courses) => {
-    coursesArray = coursesArray.concat(courses.data)
-  })
-  .catch((err) => console.log(err))
-  return coursesArray
-}
-
-const getTeachers = async (userToken) => {
-  let teachersCourseArray = []
-  await getTeachersOfCourses(userToken)
-  .then((teachers) => {
-    teachersCourseArray = teachersCourseArray.concat(teachers.data)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-  return teachersCourseArray
-}
-
 const AdminPanel = (props) => {
   return (
     <>
@@ -53,17 +31,23 @@ const AdminPanel = (props) => {
 
 const Courses = () => {
 
+  const listAllCourses = async (userToken) => {
+    let coursesArray = []
+    await getAllCourses(userToken)
+    .then((courses) => {
+      coursesArray = coursesArray.concat(courses.data)
+    })
+    .catch((err) => console.log(err))
+    setCoursesList(coursesArray)
+  }
+
   const { user } = React.useContext(UserContext)
   const [coursesList, setCoursesList] = React.useState([])
-  const [teachersList, setTeachersList] = React.useState([])
   const [createCourseModal, setCreateCourseModal] = React.useState(false)
   const [isLoading, setLoading] = React.useState(true)
 
-  React.useEffect(async () => {
-    const courses = await listAllCourses(user.token)
-    const teachers = await getTeachers(user.token)
-    setCoursesList(courses)
-    setTeachersList(teachers)
+  React.useEffect(() => {
+    listAllCourses(user.token)
     setLoading(false)
   },[])
 
@@ -105,7 +89,7 @@ const Courses = () => {
       </thead>
       <tbody>
         {coursesList && coursesList.map((courseData) => {
-                return <Course data={courseData} teachersData={teachersList} user={user} token={user.token}></Course>
+                return <Course data={courseData} user={user} token={user.token}></Course>
         })}
     
 

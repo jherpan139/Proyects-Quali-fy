@@ -28,7 +28,7 @@ function TeachersModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Profesores de {props.courseName}
+            Profesores de {props.coursename}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -48,17 +48,17 @@ function TeachersModal(props) {
             {props.teachers.map((teacher) => {
                     return (
                         <tr>
-                        <td>{teacher.teacher.idUser}</td>
-                        <td>{teacher.teacher.name}</td>
-                        <td>{teacher.teacher.surnames}</td>
-                        <td>{teacher.teacher.email}</td>
+                        <td>{teacher.idUser}</td>
+                        <td>{teacher.name}</td>
+                        <td>{teacher.surnames}</td>
+                        <td>{teacher.email}</td>
                         {teacher.role === 0 ? <td>Profesor</td> : <td><strong>Tutor</strong></td>}
                         {props.user.role === 'ADMIN' ? <td>
                         <OverlayTrigger
                           placement='bottom'
                           overlay={
                             <Tooltip>
-                              Añadir profesor a <strong>{props.courseName}</strong>
+                              Añadir profesor a <strong>{props.coursename}</strong>
                             </Tooltip>
                           }
                         >
