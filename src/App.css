@@ -20,3 +20,6 @@ body {
 .alert {
     max-width: 35%;
 }
+.table-dark {
+    background-color: black;
+}
