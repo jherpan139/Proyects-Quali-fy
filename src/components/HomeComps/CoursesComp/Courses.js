@@ -14,6 +14,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import StudentsModal from './ModalStudents'
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+import ClassIcon from '@mui/icons-material/Class';
 
 const AdminPanel = (props) => {
   return (
@@ -96,7 +97,8 @@ const Courses = () => {
 const columns=[{
   dataField:"idCourse",
   text:"#",
-  sort: true
+  sort: true,
+  formatter: courseFormatter
 },
 {
   dataField:"name",
@@ -115,7 +117,7 @@ const columns=[{
 
 const rowEvents = {
   onClick: (e, row) => {
-    if (row.students.length>0){
+    if (row.students.length>0 || row.users.length){
     setModalInfo(row)
     toggleTrueFalse()
     }
@@ -140,14 +142,24 @@ function studentsFormatter(cell, row) {
   }
 }
 
+function courseFormatter(cell, row) {
+  return (
+    <span>
+      <ClassIcon color='primary'></ClassIcon>{row.idCourse}
+    </span>
+  )
+}
+
 function teachersFormatter(cell, row) {
   if (row.users.length>0) {
     return (
-      <Button>Profesores</Button>
+      <>
+        <p>{row.users.length}</p>
+      </>
     )
   } else {
     return (
-      <Button disabled>Profesores</Button>
+      <p>No tiene profesores asignados</p>  
     )
   }
 }
@@ -165,7 +177,7 @@ function teachersFormatter(cell, row) {
       pagination={paginationFactory({sizePerPage: 5})}
       >
       </BootstrapTable>
-      {show ? <StudentsModal show={show} onHide={handleClose} coursename={modalInfo.name} students={modalInfo.students}/> : null}
+      {show ? <StudentsModal show={show} onHide={handleClose} idCourse={modalInfo.idCourse} coursename={modalInfo.name} students={modalInfo.students} user={user} teachers={modalInfo.users}/> : null}
       <Table className='table table-dark'>
         <tbody>
         {user && user.role === 'ADMIN' ? <AdminPanel setCreateCourseModal={setCreateCourseModal}></AdminPanel> : null}

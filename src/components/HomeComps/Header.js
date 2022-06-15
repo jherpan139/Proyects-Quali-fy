@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { UserContext } from '../../helpers/AuthContext';
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import SchoolIcon from '@mui/icons-material/School';
 
 
 const Header = () => {
@@ -22,10 +23,12 @@ const Header = () => {
 
   return (
     <nav className="navbar fixed-top navbar-dark bg-dark">
-      <span className="navbar-brand mb-0 h1">Classroom</span>
+      <span className="navbar-brand mb-0 h1" style={{ fontSize: 25, fontWeight: 'bold', marginLeft: 10}}>
+        <Link className="nav-link text-white" to="">Classroom <SchoolIcon color='primary'/></Link>
+        </span>
       <ul className="nav nav-pills">
         <li className="nav-item">
-          <Link className="nav-link text-white"to="">Menú</Link>
+          <Link className="nav-link text-white" to="">Menú</Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link text-white" to="teachers">Profesorado</Link>
