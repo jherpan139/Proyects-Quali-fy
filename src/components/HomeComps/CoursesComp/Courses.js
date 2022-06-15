@@ -13,13 +13,14 @@ import CreateCourseModal from './CourseActions/CreateCourse'
 import BootstrapTable from 'react-bootstrap-table-next'
 import StudentsModal from './ModalStudents'
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 
 const AdminPanel = (props) => {
   return (
     <>
     <tr style={{borderBottom: '2px solid #FFFFFF'}}></tr>
     <tr>
-      <th scope='col' colSpan={4} className='text-center'><h4>COURSES PANEL</h4></th>
+      <th scope='col' colSpan={4} className='text-center'><h4>COURSES ADMIN PANEL</h4></th>
     </tr>
     <tr>
         <th scope='col' colSpan={4} className='text-center'>
@@ -114,8 +115,10 @@ const columns=[{
 
 const rowEvents = {
   onClick: (e, row) => {
+    if (row.students.length>0){
     setModalInfo(row)
     toggleTrueFalse()
+    }
   }
 }
 
@@ -151,6 +154,7 @@ function teachersFormatter(cell, row) {
 
   return (
     <>
+    <h1 className='text-center'>LISTADO DE CURSOS</h1>
       <BootstrapTable
       classes="table-dark"
       keyField='idCourse'
@@ -158,8 +162,7 @@ function teachersFormatter(cell, row) {
       columns={columns}
       striped
       rowEvents={rowEvents}
-      caption={<h1 className='text-center'>LISTADO DE CURSOS</h1>}
-      pagination={paginationFactory()}
+      pagination={paginationFactory({sizePerPage: 5})}
       >
       </BootstrapTable>
       {show ? <StudentsModal show={show} onHide={handleClose} coursename={modalInfo.name} students={modalInfo.students}/> : null}

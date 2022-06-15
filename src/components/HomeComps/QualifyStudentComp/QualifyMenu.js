@@ -9,22 +9,43 @@ import { UserContext } from '../../../helpers/AuthContext'
 import Form from 'react-bootstrap/Form'
 import QualifyModal from './QualifyModal'
 import getAllGradesByStudent from '../../../request/grades/getAllGradesByStudent'
+import QualifyAsTutorModal from './QualifyAsTutorModal'
+import getCoursesById from '../../../request/getCoursesById'
 
 const QualifyMenu = (props) => {
 
-  const handleOpenCalifications = async () => {
+  async function listGrades() {
     let studentGrades = []
     await getAllGradesByStudent(user.token, state.student.idStudent)
     .then((grades) => studentGrades = studentGrades.concat(grades.data))
     .catch((err) => console.log(err))
 
-    console.log(studentGrades)
+    setGrades(studentGrades)
+
+  }
+
+  async function listCoursesById() {
+    let teachers = []
+    await getCoursesById(user.token, state.student.idCourse)
+    .then((res) => teachers = teachers.concat(res.data.users))
+    .catch((err) => console.log(err))
+
+    setStudentTeachers(teachers)
+
   }
 
   const { state } = useLocation()
 
   const { user } = React.useContext(UserContext)
   const [modalShow, setModalShow] = React.useState(false)
+  const [modalTutorShow, setModalTutorShow] = React.useState(false)
+  const [grades, setGrades] = React.useState([])
+  const [studentTeachers, setStudentTeachers] = React.useState([])
+
+  React.useEffect(() => {
+    listGrades()
+    listCoursesById()
+  },[])
 
   return (
     <Container fluid>
@@ -66,7 +87,7 @@ const QualifyMenu = (props) => {
                         </Col>
                         {user.role === 'ADMIN' || state.tutor ? <Col xs={3}>
                           <div className="d-grid">
-                          <Button variant='warning' onClick={handleOpenCalifications}>
+                          <Button variant='warning' onClick={() => setModalTutorShow(true)}>
                             <strong>Ver calificaciones</strong>
                           </Button>
                           </div>
@@ -94,6 +115,17 @@ const QualifyMenu = (props) => {
           student={state.student}
         >
         </QualifyModal>
+
+        <QualifyAsTutorModal
+          show={modalTutorShow}
+          onHide={() => setModalTutorShow(false)}
+          studentname={state.student.name+' '+state.student.surnames}
+          grades={grades}
+          token={user.token}
+          teachers={studentTeachers}
+          student={state.student}
+        >
+        </QualifyAsTutorModal>
 
     </Container>
   )
